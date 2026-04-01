@@ -1,12 +1,11 @@
 /**
  * Input Sanitization Utilities
- * Prevents XSS attacks by sanitizing user input
  */
 
 // Sanitize HTML to prevent XSS
 export function sanitizeInput(input) {
   if (typeof input !== "string") return input;
-  
+
   return input
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
@@ -25,54 +24,29 @@ export function sanitizeObject(obj) {
   return sanitized;
 }
 
-// Rate limiting utility using localStorage
-// Production-friendly limits: 5 requests per 60 seconds
-const RATE_LIMIT_WINDOW = 60000; // 1 minute window
-const MAX_REQUESTS = 5; // Max 5 requests per minute (more reasonable for contact forms)
+// Validate entire form
+export function validateForm(formData) {
+  const errors = {};
 
-export function checkRateLimit(key = "contact_form") {
-  const now = Date.now();
-  const storageKey = `rate_limit_${key}`;
-
-  try {
-    const stored = localStorage.getItem(storageKey);
-    const data = stored ? JSON.parse(stored) : { count: 0, resetTime: now };
-
-    if (now > data.resetTime) {
-      // Reset window expired - start fresh
-      localStorage.setItem(storageKey, JSON.stringify({ count: 1, resetTime: now + RATE_LIMIT_WINDOW }));
-      return { allowed: true, remaining: MAX_REQUESTS - 1 };
-    }
-
-    if (data.count >= MAX_REQUESTS) {
-      // Rate limit exceeded
-      const waitTime = Math.ceil((data.resetTime - now) / 1000);
-      return { allowed: false, remaining: 0, waitTime };
-    }
-
-    // Increment counter
-    data.count += 1;
-    localStorage.setItem(storageKey, JSON.stringify(data));
-    return { allowed: true, remaining: MAX_REQUESTS - data.count };
-  } catch (error) {
-    console.error("Rate limit check failed:", error);
-    // Fail open - allow request if localStorage fails
-    return { allowed: true, remaining: MAX_REQUESTS };
+  if (!formData.name || formData.name.length < 2) {
+    errors.name = "Name must be at least 2 characters";
   }
-}
 
-// Reset rate limit (e.g., after successful submission)
-export function resetRateLimit(key = "contact_form") {
-  localStorage.removeItem(`rate_limit_${key}`);
-}
-
-// Validate email format
-export function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
+  if (!formData.email || !emailRegex.test(formData.email)) {
+    errors.email = "Please enter a valid email";
+  }
 
-// Validate input length
-export function isValidLength(value, min, max) {
-  return value.length >= min && value.length <= max;
+  if (!formData.subject || formData.subject.length < 3) {
+    errors.subject = "Subject must be at least 3 characters";
+  }
+
+  if (!formData.message || formData.message.length < 10) {
+    errors.message = "Message must be at least 10 characters";
+  }
+
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  };
 }
