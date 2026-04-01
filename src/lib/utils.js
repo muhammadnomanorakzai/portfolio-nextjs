@@ -26,35 +26,37 @@ export function sanitizeObject(obj) {
 }
 
 // Rate limiting utility using localStorage
-const RATE_LIMIT_WINDOW = 60000; // 1 minute
-const MAX_REQUESTS = 3; // Max 3 requests per minute
+// Production-friendly limits: 5 requests per 60 seconds
+const RATE_LIMIT_WINDOW = 60000; // 1 minute window
+const MAX_REQUESTS = 5; // Max 5 requests per minute (more reasonable for contact forms)
 
 export function checkRateLimit(key = "contact_form") {
   const now = Date.now();
   const storageKey = `rate_limit_${key}`;
-  
+
   try {
     const stored = localStorage.getItem(storageKey);
     const data = stored ? JSON.parse(stored) : { count: 0, resetTime: now };
-    
+
     if (now > data.resetTime) {
-      // Reset window expired
+      // Reset window expired - start fresh
       localStorage.setItem(storageKey, JSON.stringify({ count: 1, resetTime: now + RATE_LIMIT_WINDOW }));
       return { allowed: true, remaining: MAX_REQUESTS - 1 };
     }
-    
+
     if (data.count >= MAX_REQUESTS) {
       // Rate limit exceeded
       const waitTime = Math.ceil((data.resetTime - now) / 1000);
       return { allowed: false, remaining: 0, waitTime };
     }
-    
+
     // Increment counter
     data.count += 1;
     localStorage.setItem(storageKey, JSON.stringify(data));
     return { allowed: true, remaining: MAX_REQUESTS - data.count };
   } catch (error) {
     console.error("Rate limit check failed:", error);
+    // Fail open - allow request if localStorage fails
     return { allowed: true, remaining: MAX_REQUESTS };
   }
 }

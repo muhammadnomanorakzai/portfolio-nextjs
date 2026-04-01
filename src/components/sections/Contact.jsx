@@ -33,6 +33,9 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
   const [focusedField, setFocusedField] = useState(null);
+  
+  // Track if a submission is in progress to prevent race conditions
+  const isSubmittingRef = useRef(false);
 
   const containerRef = useRef(null);
 
@@ -85,11 +88,16 @@ export default function Contact() {
 
   const handleFocus = (field) => setFocusedField(field);
 
-  // ✅ SUPABASE SUBMIT (MAIN LOGIC)
+  // ✅ SUPABASE SUBMIT (MAIN LOGIC) - FIXED
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check rate limit
+    // Prevent multiple simultaneous submissions (race condition fix)
+    if (isSubmitting || isSubmittingRef.current) {
+      return;
+    }
+
+    // Check rate limit BEFORE any processing
     const rateLimit = checkRateLimit("contact_form");
     if (!rateLimit.allowed) {
       setErrors({
@@ -98,6 +106,7 @@ export default function Contact() {
       return;
     }
 
+    // Validate all fields
     const newErrors = {};
     Object.keys(formData).forEach((key) => {
       const error = validateField(key, formData[key]);
@@ -109,22 +118,31 @@ export default function Contact() {
       return;
     }
 
+    // Set submission flags (both state and ref for race condition prevention)
     setIsSubmitting(true);
+    isSubmittingRef.current = true;
     setSubmitStatus(null);
     setErrors({});
 
     try {
       // Sanitize input to prevent XSS
       const sanitizedData = sanitizeObject(formData);
+      
+      // Submit to Supabase
       await messagesApi.submit(sanitizedData);
 
       // Send email notification (non-blocking, don't fail if email fails)
       try {
-        await fetch("/api/send-email", {
+        const emailResponse = await fetch("/api/send-email", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(sanitizedData),
         });
+        
+        // Handle 429 from email API specifically
+        if (emailResponse.status === 429) {
+          console.warn("Email API rate limited - message saved but email not sent");
+        }
       } catch (emailError) {
         // Log email error but don't fail the submission
         console.error("Email notification failed:", emailError);
@@ -138,14 +156,22 @@ export default function Contact() {
 
       setTimeout(() => setSubmitStatus(null), 4000);
     } catch (error) {
-      console.error("Error submitting message:", error.message); // ✅ .message not {}
+      console.error("Error submitting message:", error.message);
+      
+      // Handle Supabase/Vercel rate limiting (HTTP 429)
+      const isRateLimited = error.message?.includes("429") || 
+                           error.message?.includes("rate limit");
+      
       setSubmitStatus("error");
       setErrors({
-        form: error.message || "Failed to send message. Please try again.",
+        form: isRateLimited
+          ? "Too many requests. Please wait a moment and try again."
+          : error.message || "Failed to send message. Please try again.",
       });
-      setTimeout(() => setSubmitStatus(null), 4000);
+      setTimeout(() => setSubmitStatus(null), 5000);
     } finally {
       setIsSubmitting(false);
+      isSubmittingRef.current = false;
     }
   };
 
