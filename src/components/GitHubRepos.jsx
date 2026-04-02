@@ -74,36 +74,38 @@ export default function GitHubRepos({ username }) {
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="relative">
+      className="relative w-full overflow-x-hidden">
       {/* Header with Stats */}
       <div className="flex flex-wrap items-center justify-between mb-8 gap-4">
         <div>
           <motion.h3
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
-            className="text-3xl font-bold mb-2 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">
+            className="text-2xl sm:text-3xl font-bold mb-2 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-400 bg-clip-text text-transparent">
             GitHub Projects
           </motion.h3>
           <motion.p
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-gray-600 dark:text-gray-400">
+            className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
             My latest open-source contributions
           </motion.p>
         </div>
 
         {/* Stats Cards */}
-        <div className="flex gap-4">
+        <div className="flex gap-3 sm:gap-4">
           <motion.div
             initial={{ opacity: 0, scale: 0 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2 }}
-            className="px-4 py-2 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-xl text-center">
-            <div className="flex items-center gap-2">
-              <FaStar className="text-yellow-500" />
-              <span className="font-bold text-lg">{stats.stars}</span>
-              <span className="text-sm text-gray-600 dark:text-gray-400">
+            className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-yellow-500/10 to-orange-500/10 rounded-xl text-center">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <FaStar className="text-yellow-500 text-sm sm:text-base" />
+              <span className="font-bold text-base sm:text-lg">
+                {stats.stars}
+              </span>
+              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 stars
               </span>
             </div>
@@ -112,11 +114,13 @@ export default function GitHubRepos({ username }) {
             initial={{ opacity: 0, scale: 0 }}
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3 }}
-            className="px-4 py-2 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-xl text-center">
-            <div className="flex items-center gap-2">
-              <FaCodeBranch className="text-blue-500" />
-              <span className="font-bold text-lg">{stats.forks}</span>
-              <span className="text-sm text-gray-600 dark:text-gray-400">
+            className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 rounded-xl text-center">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <FaCodeBranch className="text-blue-500 text-sm sm:text-base" />
+              <span className="font-bold text-base sm:text-lg">
+                {stats.forks}
+              </span>
+              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 forks
               </span>
             </div>
@@ -130,14 +134,14 @@ export default function GitHubRepos({ username }) {
         target="_blank"
         rel="noopener noreferrer"
         whileHover={{ scale: 1.02, y: -2 }}
-        className="inline-flex items-center gap-2 px-5 py-2.5 mb-8 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-xl hover:shadow-xl transition-all">
-        <SiGithub className="w-5 h-5" />
+        className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 mb-8 bg-gradient-to-r from-gray-900 to-gray-800 text-white rounded-xl hover:shadow-xl transition-all text-sm sm:text-base">
+        <SiGithub className="w-4 h-4 sm:w-5 sm:h-5" />
         <span>View GitHub Profile</span>
-        <FaExternalLinkAlt className="w-3 h-3" />
+        <FaExternalLinkAlt className="w-2 h-2 sm:w-3 sm:h-3" />
       </motion.a>
 
-      {/* Repositories Grid */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Repositories Grid - FIXED RESPONSIVE GRID */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 w-full">
         {repos.map((repo, index) => (
           <RepoCard key={repo.id} repo={repo} index={index} />
         ))}
@@ -161,8 +165,8 @@ function RepoCard({ repo, index }) {
       whileHover={{ y: -8 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="block relative group">
-      <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200/50 dark:border-gray-700/50">
+      className="block relative group w-full">
+      <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-4 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-200/50 dark:border-gray-700/50 w-full">
         {/* Animated Border */}
         <motion.div
           className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
@@ -170,25 +174,25 @@ function RepoCard({ repo, index }) {
         />
 
         <div className="relative z-10">
-          <div className="flex items-start justify-between mb-3">
-            <h4 className="font-bold text-lg truncate flex-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+          <div className="flex items-start justify-between mb-3 gap-2">
+            <h4 className="font-bold text-base sm:text-lg truncate flex-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
               {repo.name}
             </h4>
             {repo.language && (
               <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-xs font-medium">
+                className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-md text-xs font-medium whitespace-nowrap">
                 {repo.language}
               </motion.span>
             )}
           </div>
 
-          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2 min-h-[56px]">
+          <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mb-4 line-clamp-2 min-h-[56px] break-words">
             {repo.description || "No description available"}
           </p>
 
-          <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+          <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-500 dark:text-gray-400 flex-wrap">
             {repo.stargazers_count > 0 && (
               <motion.div
                 whileHover={{ scale: 1.1 }}

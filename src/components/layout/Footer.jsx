@@ -14,8 +14,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { usePathname } from "next/navigation";
 
-// ✅ FIX 1: Pre-computed deterministic bubble values (outside component, runs once)
-// Math.random() inside the component causes server/client mismatch (hydration error)
+// Pre-computed deterministic bubble values
 const BUBBLES = Array.from({ length: 15 }, (_, i) => {
   const a = ((i * 9301 + 49297) % 233280) / 233280;
   const b = ((i * 6571 + 31337) % 233280) / 233280;
@@ -32,7 +31,6 @@ const BUBBLES = Array.from({ length: 15 }, (_, i) => {
 });
 
 export default function Footer() {
-  // ✅ FIX 2: currentYear via state to avoid SSR/client mismatch
   const [currentYear, setCurrentYear] = useState(2024);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const pathname = usePathname();
@@ -130,7 +128,7 @@ export default function Footer() {
         initial={{ scale: 0 }}
         animate={{ scale: showScrollTop ? 1 : 0 }}
         onClick={scrollToTop}
-        className="fixed bottom-8 right-8 z-50 p-3 bg-gradient-to-r from-primary-600 to-pink-600 text-white rounded-full shadow-2xl hover:shadow-primary-500/50 transition-all duration-300 group"
+        className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50 p-3 bg-gradient-to-r from-primary-600 to-pink-600 text-white rounded-full shadow-2xl hover:shadow-primary-500/50 transition-all duration-300 group min-h-[48px] min-w-[48px] flex items-center justify-center"
         aria-label="Scroll to top">
         <motion.div
           animate={{ y: [0, -3, 0] }}
@@ -145,7 +143,6 @@ export default function Footer() {
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 via-transparent to-pink-500/5" />
 
-          {/* ✅ FIX 3: Use pre-computed BUBBLES array — no Math.random() at render time */}
           {BUBBLES.map((bubble, i) => (
             <motion.div
               key={i}
@@ -170,20 +167,20 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="max-w-7xl mx-auto container-padding py-16 relative z-10">
-          {/* Main Footer Content */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative z-10">
+          {/* Main Footer Content - Responsive Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-10 sm:mb-12">
             {/* Brand Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="space-y-4">
+              className="space-y-4 sm:col-span-2 lg:col-span-1">
               <Link
                 href="#home"
                 onClick={(e) => scrollToSection(e, "#home")}
                 className="inline-block group">
-                <h2 className="text-3xl font-bold bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                   Muhammad
                 </h2>
                 <motion.div
@@ -193,7 +190,7 @@ export default function Footer() {
                   transition={{ duration: 0.3 }}
                 />
               </Link>
-              <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
                 Building beautiful, responsive, and performant web applications
                 with modern technologies. Let&apos;s create something amazing
                 together.
@@ -207,16 +204,16 @@ export default function Footer() {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex items-center gap-3 text-sm">
-                    <info.icon className="w-4 h-4 text-primary-600 dark:text-primary-400" />
+                    className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm">
+                    <info.icon className="w-4 h-4 text-primary-600 dark:text-primary-400 flex-shrink-0" />
                     {info.href ? (
                       <a
                         href={info.href}
-                        className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                        className="text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors truncate">
                         {info.text}
                       </a>
                     ) : (
-                      <span className="text-gray-600 dark:text-gray-400">
+                      <span className="text-gray-600 dark:text-gray-400 truncate">
                         {info.text}
                       </span>
                     )}
@@ -231,10 +228,10 @@ export default function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
               viewport={{ once: true }}>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-primary-600 to-pink-600 bg-clip-text text-transparent">
+              <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6 bg-gradient-to-r from-primary-600 to-pink-600 bg-clip-text text-transparent">
                 Quick Links
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2 sm:space-y-3">
                 {footerLinks.map((link, index) => (
                   <motion.li
                     key={link.label}
@@ -244,8 +241,8 @@ export default function Footer() {
                     <Link
                       href={link.href}
                       onClick={(e) => scrollToSection(e, link.href)}
-                      className="group flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300">
-                      <span className="text-lg transition-transform group-hover:translate-x-1">
+                      className="group flex items-center gap-2 text-sm sm:text-base text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-300">
+                      <span className="text-base sm:text-lg transition-transform group-hover:translate-x-1">
                         {link.icon}
                       </span>
                       <span className="group-hover:translate-x-1 transition-transform">
@@ -263,10 +260,10 @@ export default function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
               viewport={{ once: true }}>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-primary-600 to-pink-600 bg-clip-text text-transparent">
+              <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6 bg-gradient-to-r from-primary-600 to-pink-600 bg-clip-text text-transparent">
                 Expertise
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2 sm:space-y-3">
                 {[
                   "Frontend Development",
                   "Backend Development",
@@ -278,8 +275,8 @@ export default function Footer() {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 + index * 0.05 }}
-                    className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                    <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-primary-600 to-pink-600" />
+                    className="flex items-center gap-2 text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                    <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-primary-600 to-pink-600 flex-shrink-0" />
                     <span>{service}</span>
                   </motion.li>
                 ))}
@@ -292,12 +289,12 @@ export default function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               viewport={{ once: true }}>
-              <h3 className="text-lg font-bold mb-6 bg-gradient-to-r from-primary-600 to-pink-600 bg-clip-text text-transparent">
+              <h3 className="text-base sm:text-lg font-bold mb-4 sm:mb-6 bg-gradient-to-r from-primary-600 to-pink-600 bg-clip-text text-transparent">
                 Connect With Me
               </h3>
 
-              {/* Social Links */}
-              <div className="flex flex-wrap gap-3 mb-6">
+              {/* Social Links - Responsive */}
+              <div className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
                 {socialLinks.map((social, index) => (
                   <motion.a
                     key={social.label}
@@ -316,29 +313,29 @@ export default function Footer() {
                       style={{ backgroundColor: social.color }}
                     />
                     <div
-                      className="relative p-3 bg-white dark:bg-gray-800 rounded-full shadow-md hover:shadow-xl transition-all"
+                      className="relative p-2.5 sm:p-3 bg-white dark:bg-gray-800 rounded-full shadow-md hover:shadow-xl transition-all min-h-[44px] min-w-[44px] flex items-center justify-center"
                       style={{ color: social.color }}>
-                      <social.icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                      <social.icon className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
                     </div>
                   </motion.a>
                 ))}
               </div>
 
               {/* Newsletter Signup */}
-              <div className="mt-6">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+              <div className="mt-4 sm:mt-6">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2 sm:mb-3">
                   Subscribe to my newsletter
                 </p>
                 <div className="flex gap-2">
                   <input
                     type="email"
                     placeholder="Enter your email"
-                    className="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                    className="flex-1 px-3 sm:px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 text-xs sm:text-sm min-h-[44px]"
                   />
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-4 py-2 bg-gradient-to-r from-primary-600 to-pink-600 text-white rounded-lg text-sm font-medium hover:shadow-lg transition-all">
+                    className="px-3 sm:px-4 py-2 bg-gradient-to-r from-primary-600 to-pink-600 text-white rounded-lg text-xs sm:text-sm font-medium hover:shadow-lg transition-all min-h-[44px] whitespace-nowrap">
                     Subscribe
                   </motion.button>
                 </div>
@@ -346,40 +343,40 @@ export default function Footer() {
             </motion.div>
           </div>
 
-          {/* Bottom Bar */}
+          {/* Bottom Bar - Responsive */}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="pt-8 border-t border-gray-200 dark:border-gray-800 relative">
+            className="pt-6 sm:pt-8 border-t border-gray-200 dark:border-gray-800 relative">
             <div className="absolute top-0 left-0 w-32 h-px bg-gradient-to-r from-primary-600 to-transparent" />
 
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center sm:text-left">
                 © {currentYear} Muhammad Noman. All rights reserved.
               </p>
 
-              <div className="flex items-center gap-6">
+              <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
                 <Link
                   href="/privacy"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                   Privacy Policy
                 </Link>
                 <Link
                   href="/terms"
-                  className="text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                   Terms of Service
                 </Link>
               </div>
 
               <motion.p
                 whileHover={{ scale: 1.05 }}
-                className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1">
                 Made with{" "}
                 <motion.span
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 1, repeat: Infinity }}>
-                  <HeartIcon className="w-4 h-4 text-red-500" />
+                  <HeartIcon className="w-3 h-3 sm:w-4 sm:h-4 text-red-500" />
                 </motion.span>{" "}
                 by Muhammad Noman
               </motion.p>

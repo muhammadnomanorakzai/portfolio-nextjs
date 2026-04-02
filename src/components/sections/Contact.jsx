@@ -249,16 +249,16 @@ export default function Contact() {
     <section
       ref={containerRef}
       id="contact"
-      className="section-padding relative overflow-hidden">
-      {/* Background particles - unchanged */}
+      className="relative overflow-hidden px-4 sm:px-6 lg:px-8 py-12">
+      {/* Background particles - Responsive */}
       <div className="absolute inset-0 -z-10">
         {particles.map((i) => (
           <motion.div
             key={i}
             className="absolute rounded-full bg-primary-500/10"
             style={{
-              width: 80,
-              height: 80,
+              width: 60,
+              height: 60,
               left: `${i * 10}%`,
               top: `${i * 8}%`,
             }}
@@ -268,47 +268,53 @@ export default function Contact() {
         ))}
       </div>
 
-      <div className="max-w-6xl mx-auto container-padding pb-5">
+      <div className="max-w-6xl mx-auto w-full pb-6 sm:pb-8 lg:pb-10">
         <SectionHeading
           title="Get In Touch"
           subtitle="Have a project in mind? Let's work together"
         />
 
         <motion.div style={{ y, opacity }}>
-          <div className="grid lg:grid-cols-5 gap-8">
-            {/* Left side - unchanged */}
+          {/* Stack columns on mobile */}
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-8">
+            {/* Left side - Contact Info */}
             <AnimatedSection className="lg:col-span-2">
-              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-3xl p-8 shadow-xl">
-                <h3 className="text-2xl font-bold mb-6">Contact Info</h3>
-                <div className="space-y-4 mb-6">
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-3xl p-6 sm:p-8 shadow-xl">
+                <h3 className="text-xl sm:text-2xl font-bold mb-6">
+                  Contact Info
+                </h3>
+                <div className="space-y-3 sm:space-y-4 mb-6">
                   {contactInfo.map((item) => (
                     <div
                       key={item.label}
-                      className="flex items-center gap-4 p-4 bg-white dark:bg-gray-900 rounded-xl shadow">
-                      <item.icon className="w-5 h-5 text-primary-600" />
-                      <div>
+                      className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-white dark:bg-gray-900 rounded-xl shadow">
+                      <item.icon className="w-5 h-5 text-primary-600 flex-shrink-0" />
+                      <div className="min-w-0">
                         <p className="text-xs text-gray-400">{item.label}</p>
                         {item.link ? (
                           <a
                             href={item.link}
-                            className="font-semibold hover:text-primary-600 transition">
+                            className="font-semibold hover:text-primary-600 transition text-sm sm:text-base truncate block">
                             {item.value}
                           </a>
                         ) : (
-                          <p className="font-semibold">{item.value}</p>
+                          <p className="font-semibold text-sm sm:text-base truncate">
+                            {item.value}
+                          </p>
                         )}
                       </div>
                     </div>
                   ))}
                 </div>
-                <div className="flex gap-3">
+                <div className="flex gap-2 sm:gap-3 flex-wrap">
                   {socialLinks.map((s, i) => (
                     <a
                       key={i}
                       href={s.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-3 bg-white dark:bg-gray-900 rounded-full shadow hover:scale-110 transition-transform">
+                      className="p-2.5 sm:p-3 bg-white dark:bg-gray-900 rounded-full shadow hover:scale-110 transition-transform min-h-[44px] min-w-[44px] flex items-center justify-center"
+                      aria-label={s.url}>
                       <s.icon className="w-4 h-4" />
                     </a>
                   ))}
@@ -318,8 +324,10 @@ export default function Contact() {
 
             {/* Form */}
             <AnimatedSection className="lg:col-span-3">
-              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-3xl p-8 shadow-xl">
-                <h3 className="text-xl font-bold mb-4">Send Message</h3>
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur rounded-3xl p-6 sm:p-8 shadow-xl">
+                <h3 className="text-lg sm:text-xl font-bold mb-4">
+                  Send Message
+                </h3>
 
                 <AnimatePresence>
                   {errors.form && (
@@ -374,10 +382,10 @@ export default function Contact() {
                         onBlur={handleBlur}
                         onFocus={() => handleFocus(field)}
                         disabled={isSubmitting}
-                        className={`w-full p-3 rounded-xl border bg-gray-50 dark:bg-gray-900 transition-colors
+                        className={`w-full p-3 sm:p-4 rounded-xl border bg-gray-50 dark:bg-gray-900 transition-colors text-sm sm:text-base
                           ${focusedField === field ? "border-primary-500 ring-2 ring-primary-500/20" : "border-gray-300 dark:border-gray-700"}
                           ${errors[field] ? "border-red-500" : ""}
-                          disabled:opacity-50 disabled:cursor-not-allowed`}
+                          disabled:opacity-50 disabled:cursor-not-allowed min-h-[48px]`}
                       />
                       <AnimatePresence>
                         {errors[field] && (
@@ -403,7 +411,7 @@ export default function Contact() {
                       onBlur={handleBlur}
                       onFocus={() => handleFocus("message")}
                       disabled={isSubmitting}
-                      className={`w-full p-3 rounded-xl border bg-gray-50 dark:bg-gray-900 resize-none transition-colors
+                      className={`w-full p-3 sm:p-4 rounded-xl border bg-gray-50 dark:bg-gray-900 resize-none transition-colors text-sm sm:text-base
                         ${focusedField === "message" ? "border-primary-500 ring-2 ring-primary-500/20" : "border-gray-300 dark:border-gray-700"}
                         ${errors.message ? "border-red-500" : ""}
                         disabled:opacity-50 disabled:cursor-not-allowed`}
@@ -424,8 +432,8 @@ export default function Contact() {
                   <Button
                     type="submit"
                     variant="primary"
-                    size="md"
-                    className="w-full"
+                    size="lg"
+                    className="w-full min-h-[48px]"
                     disabled={isSubmitting}>
                     {isSubmitting ? (
                       <div className="flex items-center justify-center gap-2">

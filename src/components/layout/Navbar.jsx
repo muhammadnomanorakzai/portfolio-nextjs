@@ -14,6 +14,11 @@ import {
   SunIcon,
   MoonIcon,
   SparklesIcon,
+  HomeIcon,
+  UserIcon,
+  AcademicCapIcon,
+  CodeBracketIcon,
+  EnvelopeIcon,
 } from "@heroicons/react/24/outline";
 import useScrollPosition from "@/hooks/useScrollPosition";
 
@@ -55,11 +60,11 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { href: "#home", label: "Home", icon: "" },
-    { href: "#about", label: "About", icon: "" },
-    { href: "#skills", label: "Skills", icon: "" },
-    { href: "#projects", label: "Work", icon: "" },
-    { href: "#contact", label: "Contact", icon: "" },
+    { href: "#home", label: "Home", icon: HomeIcon },
+    { href: "#about", label: "About", icon: UserIcon },
+    { href: "#skills", label: "Skills", icon: AcademicCapIcon },
+    { href: "#projects", label: "Work", icon: CodeBracketIcon },
+    { href: "#contact", label: "Contact", icon: EnvelopeIcon },
   ];
 
   const scrollToSection = (e, href) => {
@@ -91,7 +96,7 @@ export default function Navbar() {
             : "bg-transparent"
         }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+          <div className="flex items-center justify-between h-16 sm:h-16 lg:h-20">
             {/* Logo */}
             <Link
               href="#home"
@@ -99,17 +104,17 @@ export default function Navbar() {
               className="group relative">
               <motion.h1
                 whileHover={{ scale: 1.05 }}
-                className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                 Portfolio
               </motion.h1>
 
-              <SparklesIcon className="absolute -top-2 -right-4 w-4 h-4 text-yellow-500 animate-pulse" />
+              <SparklesIcon className="absolute -top-1 -right-3 sm:-top-2 sm:-right-4 w-3 h-3 sm:w-4 sm:h-4 text-yellow-500 animate-pulse" />
 
               <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-gradient-to-r from-primary-600 to-pink-600 group-hover:w-full transition-all duration-300" />
             </Link>
 
             {/* Desktop Menu */}
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden md:flex items-center gap-1 lg:gap-2">
               {navLinks.map((link, i) => {
                 const isActive = activeSection === link.label.toLowerCase();
 
@@ -121,7 +126,7 @@ export default function Navbar() {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="relative px-4 py-2 group">
+                    className="relative px-3 lg:px-4 py-2 group">
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600">
                       {link.label}
                     </span>
@@ -141,7 +146,8 @@ export default function Navbar() {
                 onClick={toggleTheme}
                 whileHover={{ scale: 1.1, rotate: 180 }}
                 whileTap={{ scale: 0.9 }}
-                className="ml-3 p-2 rounded-xl bg-gray-100 dark:bg-gray-800">
+                className="ml-2 lg:ml-3 p-2 rounded-xl bg-gray-100 dark:bg-gray-800 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                aria-label="Toggle theme">
                 {isDark ? (
                   <SunIcon className="w-5 h-5 text-yellow-500" />
                 ) : (
@@ -154,7 +160,8 @@ export default function Navbar() {
             <div className="md:hidden flex items-center gap-2">
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800">
+                className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                aria-label="Toggle theme">
                 {isDark ? (
                   <SunIcon className="w-5 h-5 text-yellow-500" />
                 ) : (
@@ -164,7 +171,8 @@ export default function Navbar() {
 
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800">
+                className="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 min-h-[44px] min-w-[44px] flex items-center justify-center"
+                aria-label={isOpen ? "Close menu" : "Open menu"}>
                 {isOpen ? (
                   <XMarkIcon className="w-6 h-6" />
                 ) : (
@@ -175,36 +183,71 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Improved with better touch targets */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-t">
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-t border-gray-200/20 dark:border-gray-700/30 overflow-hidden">
               <div className="px-4 py-4 space-y-2">
-                {navLinks.map((link, i) => (
-                  <motion.a
-                    key={link.href}
-                    href={link.href}
-                    onClick={(e) => scrollToSection(e, link.href)}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">
-                    <span>{link.icon}</span>
-                    {link.label}
-                  </motion.a>
-                ))}
+                {navLinks.map((link, i) => {
+                  const Icon = link.icon;
+                  const isActive = activeSection === link.label.toLowerCase();
+                  
+                  return (
+                    <motion.a
+                      key={link.href}
+                      href={link.href}
+                      onClick={(e) => scrollToSection(e, link.href)}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.05 }}
+                      className={`flex items-center gap-4 px-4 py-4 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all min-h-[56px] ${
+                        isActive 
+                          ? "bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400" 
+                          : ""
+                      }`}>
+                      <Icon className="w-5 h-5 flex-shrink-0" />
+                      <span className="text-base font-medium">{link.label}</span>
+                    </motion.a>
+                  );
+                })}
+                
+                {/* Divider */}
+                <div className="h-px bg-gray-200 dark:bg-gray-700 my-2" />
+                
+                {/* Theme toggle in mobile menu */}
+                <div className="flex items-center justify-between px-4 py-3">
+                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Theme
+                  </span>
+                  <button
+                    onClick={toggleTheme}
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 min-h-[44px]">
+                    {isDark ? (
+                      <>
+                        <SunIcon className="w-5 h-5 text-yellow-500" />
+                        <span className="text-sm font-medium">Light</span>
+                      </>
+                    ) : (
+                      <>
+                        <MoonIcon className="w-5 h-5 text-gray-700" />
+                        <span className="text-sm font-medium">Dark</span>
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </motion.nav>
 
-      {/* Spacer */}
-      <div className="h-16 lg:h-20" />
+      {/* Spacer - Responsive height */}
+      <div className="h-16 sm:h-16 lg:h-20" />
     </>
   );
 }

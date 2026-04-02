@@ -91,11 +91,6 @@ export default function RootLayout({ children }) {
       <body
         className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white antialiased"
         suppressHydrationWarning>
-        {/* Accessibility */}
-        <a href="#main-content" className="sr-only focus:not-sr-only">
-          Skip to content
-        </a>
-
         {/* Error Boundary */}
         <ErrorBoundary>
           {/* Main Content */}

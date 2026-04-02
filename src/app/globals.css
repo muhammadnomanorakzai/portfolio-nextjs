@@ -20,6 +20,11 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+
   /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 8px;

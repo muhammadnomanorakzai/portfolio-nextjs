@@ -82,7 +82,7 @@ export default function Skills() {
           },
           {
             name: "Shadcn UI",
-            icon: SiShadcnui, // agar icon available na ho to custom icon use karo
+            icon: SiShadcnui,
             level: 90,
             color: "#000000",
           },
@@ -188,13 +188,13 @@ export default function Skills() {
   return (
     <section
       id="skills"
-      className="section-padding relative bg-white dark:bg-gray-950">
+      className="relative bg-white dark:bg-gray-950 px-4 sm:px-6 py-12 sm:py-16">
       {/* Clean, Performance-Friendly Background */}
-      <div className="absolute inset-0 opacity-40 dark:opacity-20 pointer-events-none">
+      <div className="absolute inset-0 opacity-30 sm:opacity-40 dark:opacity-20 pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)]" />
       </div>
 
-      <div className="max-w-7xl mx-auto container-padding relative z-10">
+      <div className="max-w-7xl mx-auto w-full relative z-10">
         <SectionHeading
           title="Technical Proficiency"
           subtitle="A comprehensive overview of my technology stack and expertise levels"
@@ -202,40 +202,46 @@ export default function Skills() {
 
         <div className="">
           {skillCategories.map((category) => (
-            <div key={category.title} className="mb-8">
-              <div className="mb-8">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            <AnimatedSection
+              key={category.title}
+              direction="up"
+              className="mb-8 sm:mb-12">
+              <div className="mb-6 sm:mb-8">
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
                   {category.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                   {category.description}
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* Responsive grid: 1 col mobile, 2 cols tablet, 3 cols desktop */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {category.skills.map((skill) => (
                   <SkillCard key={skill.name} skill={skill} />
                 ))}
               </div>
-            </div>
+            </AnimatedSection>
           ))}
         </div>
 
-        {/* Additional Expertise Tags */}
-        <div className="mt-20 pb-10 pt-10 border-t border-gray-100 dark:border-gray-800 text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-gray-500 mb-5">
-            Other Technologies & Frameworks
-          </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {additionalTags.map((tag) => (
-              <span
-                key={tag}
-                className="px-4 py-2 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium border border-gray-200 dark:border-gray-800">
-                {tag}
-              </span>
-            ))}
+        {/* Additional Expertise Tags - Responsive */}
+        <AnimatedSection direction="up">
+          <div className="mt-12 sm:mt-16 lg:mt-20 pb-8 sm:pb-10 pt-8 sm:pt-10 border-t border-gray-100 dark:border-gray-800 text-center">
+            <p className="text-xs sm:text-sm font-semibold uppercase tracking-widest text-gray-500 mb-4 sm:mb-5">
+              Other Technologies & Frameworks
+            </p>
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+              {additionalTags.map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-300 rounded-lg text-xs sm:text-sm font-medium border border-gray-200 dark:border-gray-800">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+        </AnimatedSection>
       </div>
     </section>
   );
@@ -244,19 +250,19 @@ export default function Skills() {
 // Sub-component for better performance (React can optimize each card)
 function SkillCard({ skill }) {
   return (
-    <div className="p-5 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl hover:shadow-md transition-shadow duration-200">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
+    <div className="p-4 sm:p-5 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl hover:shadow-md transition-shadow duration-200">
+      <div className="flex items-center justify-between mb-3 sm:mb-4">
+        <div className="flex items-center gap-2 sm:gap-3">
           <div
-            className="p-2 rounded-lg bg-gray-50 dark:bg-gray-800"
+            className="p-2 rounded-lg bg-gray-50 dark:bg-gray-800 flex-shrink-0"
             style={{ color: skill.color }}>
-            <skill.icon size={24} />
+            <skill.icon size={20} className="sm:w-6 sm:h-6" />
           </div>
-          <span className="font-bold text-gray-800 dark:text-gray-100">
+          <span className="font-bold text-gray-800 dark:text-gray-100 text-sm sm:text-base">
             {skill.name}
           </span>
         </div>
-        <span className="text-xs font-mono font-bold text-gray-400">
+        <span className="text-xs font-mono font-bold text-gray-400 flex-shrink-0">
           {skill.level}%
         </span>
       </div>
