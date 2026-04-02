@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import Button from "../ui/Button";
+import CVButton from "../CVButton";
 import { ArrowDownIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { TypeAnimation } from "react-type-animation";
 import Link from "next/link";
@@ -195,23 +196,27 @@ export default function Hero() {
           <Button size="md" className="w-full sm:w-auto min-h-[48px]">
             <Link href="#projects">View My Work</Link>
           </Button>
-          <Button size="md" variant="outline" className="w-full sm:w-auto min-h-[48px]">
+          <Button
+            size="md"
+            variant="outline"
+            className="w-full sm:w-auto min-h-[48px]">
             <a href="#contact">Contact Me</a>
           </Button>
+          <CVButton variant="split" />
         </div>
 
         {/* Scroll indicator - larger touch target */}
-        <motion.div
+        {/* <motion.div
           className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}>
-          <button 
+          <button
             onClick={scrollToNext}
             className="p-3 sm:p-4 rounded-full bg-white/10 dark:bg-gray-800/50 backdrop-blur-sm hover:bg-white/20 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
             aria-label="Scroll down">
             <ArrowDownIcon className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );
