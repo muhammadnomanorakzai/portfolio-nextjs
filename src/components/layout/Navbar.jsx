@@ -183,67 +183,65 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Menu - Improved with better touch targets */}
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-t border-gray-200/20 dark:border-gray-700/30 overflow-hidden">
-              <div className="px-4 py-4 space-y-2">
-                {navLinks.map((link, i) => {
-                  const Icon = link.icon;
-                  const isActive = activeSection === link.label.toLowerCase();
-                  
-                  return (
-                    <motion.a
-                      key={link.href}
-                      href={link.href}
-                      onClick={(e) => scrollToSection(e, link.href)}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.05 }}
-                      className={`flex items-center gap-4 px-4 py-4 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all min-h-[56px] ${
-                        isActive 
-                          ? "bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400" 
-                          : ""
-                      }`}>
-                      <Icon className="w-5 h-5 flex-shrink-0" />
-                      <span className="text-base font-medium">{link.label}</span>
-                    </motion.a>
-                  );
-                })}
-                
-                {/* Divider */}
-                <div className="h-px bg-gray-200 dark:bg-gray-700 my-2" />
-                
-                {/* Theme toggle in mobile menu */}
-                <div className="flex items-center justify-between px-4 py-3">
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Theme
-                  </span>
-                  <button
-                    onClick={toggleTheme}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 min-h-[44px]">
-                    {isDark ? (
-                      <>
-                        <SunIcon className="w-5 h-5 text-yellow-500" />
-                        <span className="text-sm font-medium">Light</span>
-                      </>
-                    ) : (
-                      <>
-                        <MoonIcon className="w-5 h-5 text-gray-700" />
-                        <span className="text-sm font-medium">Dark</span>
-                      </>
-                    )}
-                  </button>
-                </div>
+        {/* Mobile Menu - NO ANIMATION VERSION */}
+        {isOpen && (
+          <div className="md:hidden bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-t border-gray-200/20 dark:border-gray-700/30">
+            <div className="px-4 py-4 space-y-2">
+              {navLinks.map((link, i) => {
+                const Icon = link.icon;
+                const isActive = activeSection === link.section;
+
+                return (
+                  <div
+                    key={link.href}
+                    onClick={() => {
+                      const el = document.querySelector(link.href);
+                      if (el) {
+                        const navHeight = 80;
+                        const top =
+                          el.getBoundingClientRect().top +
+                          window.scrollY -
+                          navHeight;
+                        window.scrollTo({ top, behavior: "smooth" });
+                      }
+                      setIsOpen(false);
+                    }}
+                    className={`flex items-center gap-4 px-4 py-4 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all min-h-[56px] cursor-pointer ${
+                      isActive
+                        ? "bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400"
+                        : ""
+                    }`}>
+                    <Icon className="w-5 h-5 flex-shrink-0" />
+                    <span className="text-base font-medium">{link.label}</span>
+                  </div>
+                );
+              })}
+
+              <div className="h-px bg-gray-200 dark:bg-gray-700 my-2" />
+
+              <div className="flex items-center justify-between px-4 py-3">
+                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                  Theme
+                </span>
+                <button
+                  onClick={toggleTheme}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 min-h-[44px]">
+                  {isDark ? (
+                    <>
+                      <SunIcon className="w-5 h-5 text-yellow-500" />
+                      <span className="text-sm font-medium">Light</span>
+                    </>
+                  ) : (
+                    <>
+                      <MoonIcon className="w-5 h-5 text-gray-700" />
+                      <span className="text-sm font-medium">Dark</span>
+                    </>
+                  )}
+                </button>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+          </div>
+        )}
       </motion.nav>
 
       {/* Spacer - Responsive height */}
