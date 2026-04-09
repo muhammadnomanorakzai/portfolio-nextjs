@@ -34,7 +34,7 @@ export default function About() {
       },
       {
         label: "Satisfied Clients",
-        value: 2,
+        value: 8,
         icon: UserGroupIcon,
         suffix: "+",
       },

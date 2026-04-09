@@ -169,15 +169,13 @@ export default function Hero() {
         <div className="text-base sm:text-xl md:text-2xl lg:text-3xl mb-4 sm:mb-6 px-4">
           <TypeAnimation
             sequence={[
-              "Full Stack Developer",
+              "Junior Full Stack Developer",
               2000,
               "MERN Stack Developer",
               2000,
               "Problem Solver",
               2000,
               "UI/UX Expert",
-              2000,
-              "Tech Enthusiast",
               2000,
             ]}
             speed={50}
@@ -188,7 +186,9 @@ export default function Hero() {
 
         {/* Description - Responsive */}
         <p className="max-w-xl sm:max-w-2xl mx-auto text-gray-600 dark:text-gray-300 text-sm sm:text-base lg:text-lg mb-8 sm:mb-10 px-4">
-          I craft beautiful, responsive, and performant web applications
+          Junior Full Stack Developer specializing in Next.js, React, Node.js,
+          Supabase, and modern web apps. I build real-world dashboards, auth
+          systems, admin panels, and scalable web applications
         </p>
 
         {/* CTA Buttons - Stack on mobile, row on desktop */}
