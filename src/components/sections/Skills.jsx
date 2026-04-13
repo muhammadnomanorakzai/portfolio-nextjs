@@ -135,19 +135,19 @@ export default function Skills() {
           {
             name: "Python",
             icon: SiPython,
-            level: 60,
+            level: 50,
             color: "#3776AB",
           },
           {
             name: "Machine Learning",
             icon: SiTensorflow,
-            level: 60,
+            level: 50,
             color: "#FF6F00",
           },
           {
             name: "Artificial Intelligence",
             icon: SiOpenai,
-            level: 60,
+            level: 50,
             color: "#412991",
           },
         ],
