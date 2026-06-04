@@ -18,31 +18,78 @@ import {
   UserGroupIcon,
   AcademicCapIcon,
   BriefcaseIcon,
+  ArrowDownTrayIcon,
+  BoltIcon,
+  WrenchScrewdriverIcon,
 } from "@heroicons/react/24/outline";
 
 export default function About() {
   const containerRef = useRef(null);
 
+  // ✅ FIX: Single ref for stats section (was: useInView inside .map() = hooks violation)
+  const [statsRef, statsInView] = useInView({
+    triggerOnce: true,
+    threshold: 0.3,
+  });
+
   const stats = useMemo(
     () => [
-      { label: "Years Experience", value: 1, icon: TrophyIcon, suffix: "+" },
+      { label: "Years in Production", value: 1, icon: TrophyIcon, suffix: "+" },
       {
-        label: "Successfully Delivered Projects",
+        label: "Apps Deployed",
         value: 10,
         icon: RocketLaunchIcon,
         suffix: "+",
       },
+      { label: "Happy Clients", value: 8, icon: UserGroupIcon, suffix: "+" },
+      { label: "Tech Stack", value: 15, icon: SparklesIcon, suffix: "+" },
+    ],
+    [],
+  );
+
+  const whatIDo = useMemo(
+    () => [
       {
-        label: "Satisfied Clients",
-        value: 8,
-        icon: UserGroupIcon,
-        suffix: "+",
+        icon: CodeBracketIcon,
+        title: "Full Stack Development",
+        desc: "End-to-end MERN apps — from REST APIs to pixel-perfect UIs, production-ready.",
+        color: "text-primary-600",
+        bg: "bg-primary-600/10",
       },
       {
-        label: "Technologies Mastered",
-        value: 15,
-        icon: SparklesIcon,
-        suffix: "+",
+        icon: DevicePhoneMobileIcon,
+        title: "Responsive Interfaces",
+        desc: "Mobile-first designs that look great on every screen size and device.",
+        color: "text-purple-600",
+        bg: "bg-purple-600/10",
+      },
+      {
+        icon: WrenchScrewdriverIcon,
+        title: "Scalable Architecture",
+        desc: "Clean code, reusable components, and maintainable project structures.",
+        color: "text-pink-600",
+        bg: "bg-pink-600/10",
+      },
+    ],
+    [],
+  );
+
+  const currently = useMemo(
+    () => [
+      {
+        emoji: "🟢",
+        label: "Status",
+        value: "Available — Remote & Onsite",
+      },
+      {
+        emoji: "🏠",
+        label: "Local Clients",
+        value: "Actively handling local projects",
+      },
+      {
+        emoji: "📱",
+        label: "Building",
+        value: "HUNAR — AI-powered home services app (React Native + Groq LLM)",
       },
     ],
     [],
@@ -52,7 +99,7 @@ export default function About() {
     () => [
       {
         year: "2025 - 2026",
-        title: " Full Stack Developer",
+        title: "Full Stack Developer",
         company: "Growbiz365",
         description:
           "Contributing to the development of scalable and production-ready enterprise applications with modern technologies and best coding practices.",
@@ -94,7 +141,7 @@ export default function About() {
       {
         year: "2018",
         title: "Secondary School Certificate",
-        company: "Iqra Eduction Academy",
+        company: "Iqra Education Academy",
         description:
           "Completed with a strong academic record in science subjects.",
       },
@@ -123,8 +170,9 @@ export default function About() {
           subtitle="Passionate Full Stack Developer focused on delivering clean, scalable, and user-centric digital solutions"
         />
 
-        {/* Top Content: Image & Intro - Stack on mobile */}
+        {/* ── SECTION 1: Image + Intro ── */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-10 lg:mb-16">
+          {/* Profile Image */}
           <AnimatedSection direction="right">
             <div className="relative max-w-[280px] mx-auto lg:mx-0">
               <motion.div
@@ -135,18 +183,38 @@ export default function About() {
               <div className="relative aspect-square rounded-3xl overflow-hidden p-1 bg-gradient-to-br from-primary-400 to-primary-600">
                 <div className="w-full h-full rounded-3xl overflow-hidden relative bg-gray-900">
                   <Image
-                    src="/images/Noman.png"
+                    src="/images/nomankhan2.jpeg"
                     alt="Muhammad Noman"
                     fill
                     className="object-cover"
                   />
                 </div>
               </div>
+
+              {/* Available Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="absolute -bottom-3 -right-3 flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/30 backdrop-blur-sm">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                </span>
+                <span className="text-xs font-semibold text-green-600">
+                  Available for Work
+                </span>
+              </motion.div>
             </div>
           </AnimatedSection>
 
+          {/* Intro Text */}
           <AnimatedSection direction="left">
             <div className="space-y-4 sm:space-y-6">
+              {/* Developer Philosophy Quote */}
+              <p className="text-primary-600 font-mono text-xs sm:text-sm tracking-wide">
+                // I write code that humans can read, not just machines
+              </p>
               <h3 className="text-lg sm:text-xl lg:text-2xl font-bold bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                 I build scalable and modern digital solutions that turn ideas
                 into reality
@@ -155,40 +223,107 @@ export default function About() {
                 With <span className="font-bold text-primary-600">1+ year</span>{" "}
                 of experience, I am a passionate Full Stack Developer with
                 hands-on experience in building responsive, scalable, and
-                user-friendly web applications. I specialize in modern
-                technologies like the MERN stack, focusing on clean code,
-                performance, and real-world problem solving. I enjoy solving
-                real-world problems through technology and continuously learning
-                to improve my skills as a developer.
+                user-friendly web applications. I specialize in the{" "}
+                <span className="font-bold text-primary-600">MERN stack</span>,
+                focusing on clean code, performance, and real-world problem
+                solving.
               </p>
-
-              {/* Stats Grid - Responsive */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-4">
-                {stats.map((stat, index) => {
-                  const [ref, inView] = useInView({ triggerOnce: true });
-                  return (
-                    <div
-                      key={stat.label}
-                      ref={ref}
-                      className="text-center p-3 sm:p-4 rounded-2xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
-                      <div className="text-xl sm:text-2xl font-bold text-primary-600">
-                        {inView && <CountUp end={stat.value} duration={2} />}
-                        {stat.suffix}
-                      </div>
-                      <div className="text-[10px] sm:text-xs uppercase tracking-wider text-gray-500 font-bold mt-1">
-                        {stat.label}
-                      </div>
+              {/* ── Stats Grid — FIXED: single parent ref, no hook-in-loop ── */}
+              <div
+                ref={statsRef}
+                className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-4">
+                {stats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="text-center p-3 sm:p-4 rounded-2xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
+                    <div className="text-xl sm:text-2xl font-bold text-primary-600">
+                      {statsInView && <CountUp end={stat.value} duration={2} />}
+                      {stat.suffix}
                     </div>
-                  );
-                })}
+                    <div className="text-[10px] sm:text-xs uppercase tracking-wider text-gray-500 font-bold mt-1">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
               </div>
+              {/* ── Download CV Button ── */}
+              {/* <a
+                href="/resume/Muhammad-Noman-CV.pdf"
+                download
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-primary-600 to-purple-600 text-white font-semibold text-sm hover:opacity-90 transition-opacity shadow-lg shadow-primary-600/25">
+                <ArrowDownTrayIcon className="w-4 h-4" />
+                Download Resume
+              </a> */}
             </div>
           </AnimatedSection>
         </div>
 
-        {/* Bottom Content: Two Column Timeline - Stack on mobile */}
+        {/* ── SECTION 2: What I Do Cards ── */}
+        <AnimatedSection direction="up">
+          <div className="mb-10 lg:mb-16">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 rounded-lg bg-primary-600/10">
+                <BoltIcon className="w-5 h-5 text-primary-600" />
+              </div>
+              <h4 className="text-xl sm:text-2xl font-bold">What I Do</h4>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {whatIDo.map((item, idx) => (
+                <motion.div
+                  key={idx}
+                  whileHover={{ y: -4 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="p-5 rounded-2xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 hover:border-primary-600/30 transition-colors">
+                  <div className={`p-2 rounded-lg ${item.bg} w-fit mb-3`}>
+                    <item.icon className={`w-5 h-5 ${item.color}`} />
+                  </div>
+                  <h5 className="font-bold text-sm sm:text-base mb-1">
+                    {item.title}
+                  </h5>
+                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                    {item.desc}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </AnimatedSection>
+
+        {/* ── SECTION 3: Currently ── */}
+        <AnimatedSection direction="up">
+          <div className="mb-10 lg:mb-16 p-5 sm:p-6 rounded-2xl bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-base font-mono font-bold text-primary-600">
+                &gt; currently
+              </span>
+              <motion.span
+                animate={{ opacity: [1, 0, 1] }}
+                transition={{ duration: 1, repeat: Infinity }}
+                className="inline-block w-2 h-4 bg-primary-600"
+              />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+              {currently.map((item, idx) => (
+                <div key={idx} className="flex items-start gap-3">
+                  <span className="text-lg">{item.emoji}</span>
+                  <div>
+                    <div className="text-[10px] sm:text-xs uppercase tracking-wider text-gray-400 font-bold">
+                      {item.label}
+                    </div>
+                    <div className="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-200 mt-0.5">
+                      {item.value}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </AnimatedSection>
+
+        {/* ── SECTION 4: Education + Experience Timeline ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 mb-10">
-          {/* LEFT COLUMN: EDUCATION */}
+          {/* Education */}
           <AnimatedSection direction="up">
             <div className="space-y-6 sm:space-y-8">
               <div className="flex items-center gap-3 mb-6">
@@ -222,7 +357,7 @@ export default function About() {
             </div>
           </AnimatedSection>
 
-          {/* RIGHT COLUMN: EXPERIENCE */}
+          {/* Experience */}
           <AnimatedSection direction="up">
             <div className="space-y-6 sm:space-y-8">
               <div className="flex items-center gap-3 mb-6">

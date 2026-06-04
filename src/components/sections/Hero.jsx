@@ -7,6 +7,7 @@ import CVButton from "../CVButton";
 import { ArrowDownIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { TypeAnimation } from "react-type-animation";
 import Link from "next/link";
+import { Radar } from "../ui/radar-effect";
 
 export default function Hero() {
   const [particles, setParticles] = useState([]);
@@ -68,6 +69,19 @@ export default function Hero() {
           transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
           className="absolute bottom-1/4 right-1/4 w-32 h-32 sm:w-48 sm:h-48 lg:w-80 lg:h-80 bg-purple-500/25 rounded-full blur-2xl"
         />
+      </div>
+
+      {/* Radar Effect Background - Centered */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-5">
+        <Radar size="large" className="opacity-30 sm:opacity-40" />
+      </div>
+
+      {/* Responsive Radar for different screen sizes */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-5 sm:hidden">
+        <Radar size="small" className="opacity-20" />
+      </div>
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-5 hidden sm:flex md:hidden">
+        <Radar size="normal" className="opacity-30" />
       </div>
 
       {/* Grid background - lighter on mobile */}
@@ -132,9 +146,9 @@ export default function Hero() {
           />
 
           {/* Responsive image size */}
-          <div className="relative w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-full overflow-hidden">
+          <div className="relative w-24 h-24 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-full overflow-hidden bg-black/20 backdrop-blur-sm">
             <Image
-              src="/images/nomi.png"
+              src="/images/Noman.png"
               alt="Muhammad Noman"
               fill
               className="object-cover"
@@ -169,7 +183,7 @@ export default function Hero() {
         <div className="text-base sm:text-xl md:text-2xl lg:text-3xl mb-4 sm:mb-6 px-4">
           <TypeAnimation
             sequence={[
-              "Junior Full Stack Developer",
+              "Full Stack Developer",
               2000,
               "MERN Stack Developer",
               2000,
@@ -184,7 +198,7 @@ export default function Hero() {
           />
         </div>
 
-        {/* Description - Responsive */}
+        {/* Description - Responsive with backdrop blur for readability */}
         <p className="max-w-xl sm:max-w-2xl mx-auto text-gray-600 dark:text-gray-300 text-sm sm:text-base lg:text-lg mb-8 sm:mb-10 px-4">
           Junior Full Stack Developer specializing in Next.js, React, Node.js,
           Supabase, and modern web apps. I build real-world dashboards, auth
@@ -206,7 +220,7 @@ export default function Hero() {
         </div>
 
         {/* Scroll indicator - larger touch target */}
-        {/* <motion.div
+        <motion.div
           className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}>
@@ -216,7 +230,7 @@ export default function Hero() {
             aria-label="Scroll down">
             <ArrowDownIcon className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
-        </motion.div> */}
+        </motion.div>
       </div>
     </section>
   );
