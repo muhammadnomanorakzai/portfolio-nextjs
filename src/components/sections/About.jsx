@@ -10,8 +10,10 @@ import { useInView } from "react-intersection-observer";
 import {
   CodeBracketIcon,
   DevicePhoneMobileIcon,
+  ShoppingCartIcon,
   GlobeAltIcon,
   CommandLineIcon,
+  ChatBubbleLeftRightIcon,
   SparklesIcon,
   RocketLaunchIcon,
   TrophyIcon,
@@ -51,24 +53,45 @@ export default function About() {
     () => [
       {
         icon: CodeBracketIcon,
-        title: "Full Stack Development",
-        desc: "End-to-end MERN apps — from REST APIs to pixel-perfect UIs, production-ready.",
+        title: "Custom Web Applications",
+        desc: "Build custom web applications tailored to your business needs using modern MERN technologies.",
         color: "text-primary-600",
         bg: "bg-primary-600/10",
       },
       {
         icon: DevicePhoneMobileIcon,
-        title: "Responsive Interfaces",
-        desc: "Mobile-first designs that look great on every screen size and device.",
+        title: "Admin Dashboards",
+        desc: "Develop powerful admin panels with analytics, role management, reporting, and workflow automation.",
         color: "text-purple-600",
         bg: "bg-purple-600/10",
       },
       {
         icon: WrenchScrewdriverIcon,
-        title: "Scalable Architecture",
-        desc: "Clean code, reusable components, and maintainable project structures.",
+        title: "Management Systems",
+        desc: "Create ERP, CRM, School, College, Hospital, HR, Inventory, and other business management systems.",
         color: "text-pink-600",
         bg: "bg-pink-600/10",
+      },
+      {
+        icon: ShoppingCartIcon,
+        title: "E-Commerce Solutions",
+        desc: "Build scalable online stores with secure payments, product management, orders, and customer accounts.",
+        color: "text-green-600",
+        bg: "bg-green-600/10",
+      },
+      {
+        icon: RocketLaunchIcon,
+        title: "SaaS Applications",
+        desc: "Design and develop modern SaaS platforms with subscriptions, authentication, dashboards, and billing flows.",
+        color: "text-orange-600",
+        bg: "bg-orange-600/10",
+      },
+      {
+        icon: ChatBubbleLeftRightIcon,
+        title: "AI & Business Automation",
+        desc: "Automate business processes with AI integrations, WhatsApp automation, chatbots, and workflow systems.",
+        color: "text-cyan-600",
+        bg: "bg-cyan-600/10",
       },
     ],
     [],
@@ -183,7 +206,7 @@ export default function About() {
               <div className="relative aspect-square rounded-3xl overflow-hidden p-1 bg-gradient-to-br from-primary-400 to-primary-600">
                 <div className="w-full h-full rounded-3xl overflow-hidden relative bg-gray-900">
                   <Image
-                    src="/images/nomankhan2.jpeg"
+                    src="/images/Nomankhans.jpeg"
                     alt="Muhammad Noman"
                     fill
                     className="object-cover"

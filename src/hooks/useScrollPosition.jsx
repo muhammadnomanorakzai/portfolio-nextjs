@@ -9,6 +9,11 @@ export default function useScrollPosition() {
       setScrollPosition(window.scrollY);
 
       // Update active section based on scroll position
+      if (window.location.pathname === "/services") {
+        setActiveSection("services");
+        return;
+      }
+
       const sections = ["home", "about", "skills", "projects", "contact"];
       const sectionElements = sections.map((id) => document.getElementById(id));
 

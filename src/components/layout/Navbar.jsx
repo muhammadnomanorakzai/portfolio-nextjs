@@ -60,19 +60,27 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { href: "#home", label: "Home", icon: HomeIcon },
-    { href: "#about", label: "About", icon: UserIcon },
-    { href: "#skills", label: "Skills", icon: AcademicCapIcon },
-    { href: "#projects", label: "Work", icon: CodeBracketIcon },
-    { href: "#contact", label: "Contact", icon: EnvelopeIcon },
+    { href: "/", label: "Home", icon: HomeIcon, section: "home" },
+    { href: "/services", label: "Services", icon: SparklesIcon, section: "services" },
+    { href: "/#about", label: "About", icon: UserIcon, section: "about" },
+    { href: "/#skills", label: "Skills", icon: AcademicCapIcon, section: "skills" },
+    { href: "/#projects", label: "Work", icon: CodeBracketIcon, section: "projects" },
+    { href: "/#contact", label: "Contact", icon: EnvelopeIcon, section: "contact" },
   ];
 
-  const scrollToSection = (e, href) => {
-    e.preventDefault();
-    const el = document.querySelector(href);
-
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+  const handleNavClick = (e, href) => {
+    // If it's an anchor link on the home page, use smooth scroll
+    if (href.startsWith("/#") && window.location.pathname === "/") {
+      e.preventDefault();
+      const id = href.replace("/#", "");
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+        setIsOpen(false);
+      }
+    } else if (href === "/" && window.location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
       setIsOpen(false);
     }
   };
@@ -99,8 +107,8 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16 sm:h-16 lg:h-20">
             {/* Logo */}
             <Link
-              href="#home"
-              onClick={(e) => scrollToSection(e, "#home")}
+              href="/"
+              onClick={(e) => handleNavClick(e, "/")}
               className="group relative">
               <motion.h1
                 whileHover={{ scale: 1.05 }}
@@ -116,20 +124,25 @@ export default function Navbar() {
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-1 lg:gap-2">
               {navLinks.map((link, i) => {
-                const isActive = activeSection === link.label.toLowerCase();
+                const isActive = activeSection === link.section;
 
                 return (
-                  <motion.a
+                  <Link
                     key={link.href}
                     href={link.href}
-                    onClick={(e) => scrollToSection(e, link.href)}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
+                    onClick={(e) => handleNavClick(e, link.href)}
                     className="relative px-3 lg:px-4 py-2 group">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-primary-600">
+                    <motion.span
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      className={`text-sm font-medium transition-colors ${
+                        isActive 
+                          ? "text-primary-600" 
+                          : "text-gray-700 dark:text-gray-300 group-hover:text-primary-600"
+                      }`}>
                       {link.label}
-                    </span>
+                    </motion.span>
 
                     {isActive && (
                       <motion.div
@@ -137,7 +150,7 @@ export default function Navbar() {
                         className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-primary-600 to-pink-600"
                       />
                     )}
-                  </motion.a>
+                  </Link>
                 );
               })}
 
@@ -192,18 +205,11 @@ export default function Navbar() {
                 const isActive = activeSection === link.section;
 
                 return (
-                  <div
+                  <Link
                     key={link.href}
-                    onClick={() => {
-                      const el = document.querySelector(link.href);
-                      if (el) {
-                        const navHeight = 80;
-                        const top =
-                          el.getBoundingClientRect().top +
-                          window.scrollY -
-                          navHeight;
-                        window.scrollTo({ top, behavior: "smooth" });
-                      }
+                    href={link.href}
+                    onClick={(e) => {
+                      handleNavClick(e, link.href);
                       setIsOpen(false);
                     }}
                     className={`flex items-center gap-4 px-4 py-4 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all min-h-[56px] cursor-pointer ${
@@ -213,7 +219,7 @@ export default function Navbar() {
                     }`}>
                     <Icon className="w-5 h-5 flex-shrink-0" />
                     <span className="text-base font-medium">{link.label}</span>
-                  </div>
+                  </Link>
                 );
               })}
 
