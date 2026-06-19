@@ -59,18 +59,18 @@ export default function Skills() {
         description: "Building responsive, high-performance user interfaces",
         icon: <VscCode className="text-primary-500" />,
         skills: [
-          { name: "React.js", icon: SiReact, level: 90, color: "#61DAFB" },
+          { name: "React.js", icon: SiReact, level: 100, color: "#61DAFB" },
           { name: "Next.js", icon: SiNextdotjs, level: 80, color: "#000000" },
           {
             name: "TypeScript",
             icon: SiTypescript,
-            level: 70,
+            level: 80,
             color: "#3178C6",
           },
           {
             name: "JavaScript",
             icon: SiJavascript,
-            level: 80,
+            level: 95,
             color: "#F7DF1E",
           },
           {
@@ -92,7 +92,7 @@ export default function Skills() {
             level: 100,
             color: "#0170FE",
           },
-          { name: "Shadcn UI", icon: SiShadcnui, level: 95, color: "#000000" },
+          { name: "Shadcn UI", icon: SiShadcnui, level: 100, color: "#000000" },
         ],
       },
       {
@@ -101,18 +101,18 @@ export default function Skills() {
           "Designing scalable backend systems and efficient data management solutions",
         icon: <VscServerProcess className="text-green-500" />,
         skills: [
-          { name: "Node.js", icon: SiNodedotjs, level: 90, color: "#339933" },
-          { name: "Express.js", icon: SiExpress, level: 90, color: "#000000" },
-          { name: "MongoDB", icon: SiMongodb, level: 85, color: "#47A248" },
+          { name: "Node.js", icon: SiNodedotjs, level: 95, color: "#339933" },
+          { name: "Express.js", icon: SiExpress, level: 95, color: "#000000" },
+          { name: "MongoDB", icon: SiMongodb, level: 95, color: "#47A248" },
           {
             name: "PostgreSQL",
             icon: SiPostgresql,
             level: 80,
             color: "#4169E1",
           },
-          { name: "Firebase", icon: SiFirebase, level: 80, color: "#FFCA28" },
-          { name: "Supabase", icon: SiSupabase, level: 80, color: "#3ECF8E" },
-          { name: "EJS", icon: SiEjs, level: 90, color: "#B4CA65" },
+          { name: "Firebase", icon: SiFirebase, level: 100, color: "#FFCA28" },
+          { name: "Supabase", icon: SiSupabase, level: 100, color: "#3ECF8E" },
+          { name: "EJS", icon: SiEjs, level: 100, color: "#B4CA65" },
         ],
       },
       {
@@ -125,7 +125,7 @@ export default function Skills() {
           {
             name: "Machine Learning",
             icon: SiTensorflow,
-            level: 60,
+            level: 80,
             color: "#FF6F00",
           },
           {
@@ -142,21 +142,21 @@ export default function Skills() {
           "Automated deployment, containerization, and continuous integration",
         icon: <VscRocket className="text-blue-500" />,
         skills: [
-          { name: "Docker", icon: SiDocker, level: 85, color: "#2496ED" },
+          { name: "Docker", icon: SiDocker, level: 95, color: "#2496ED" },
           {
             name: "CI/CD Pipeline",
             icon: VscSettingsGear,
-            level: 90,
+            level: 100,
             color: "#00A86B",
           },
           {
             name: "GitHub Actions",
             icon: SiGithubactions,
-            level: 85,
+            level: 95,
             color: "#2088FF",
           },
-          { name: "Vercel", icon: SiVercel, level: 95, color: "#000000" },
-          { name: "Netlify", icon: SiNetlify, level: 95, color: "#00C7B7" },
+          { name: "Vercel", icon: SiVercel, level: 100, color: "#000000" },
+          { name: "Netlify", icon: SiNetlify, level: 100, color: "#00C7B7" },
         ],
       },
     ],
